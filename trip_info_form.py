@@ -6,7 +6,10 @@ def city_input(city_list):
     for i, city in enumerate(city_list):
         col1, col2 = st.columns([3, 1])
         with col1:
-            city_name = st.text_input(f"City {i+1}", value=city['name'], key=f"city_{i}")
+            city_name = st.selectbox(f"City {i+1}", 
+                                     options=["Baku", "Gabala", "Shamakhi", "Sheki", "Shahdag", "Quba"], 
+                                     index=["Baku", "Gabala", "Shamakhi", "Sheki", "Shahdag", "Quba"].index(city['name']), 
+                                     key=f"city_{i}")
         with col2:
             nights = st.number_input(f"Nights in {city_name}", min_value=1, value=city['nights'], key=f"nights_{i}")
         city_list[i]['name'] = city_name
@@ -38,19 +41,14 @@ if 'rooms' not in st.session_state:
 # Display room inputs
 for i, room in enumerate(st.session_state.rooms):
     st.subheader(f"Room {i+1}")
-    adults = st.number_input(f"Number of Adults in Room {i+1}", min_value=1, value=room['adults'], key=f"adults_{i}")
-    children = st.number_input(f"Number of Children in Room {i+1}", min_value=0, value=room['children'], key=f"children_{i}")
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        adults = st.number_input(f"Number of Adults in Room {i+1}", min_value=1, value=room['adults'], key=f"adults_{i}")
+    with col2:
+        children = st.number_input(f"Number of Children in Room {i+1}", min_value=0, value=room['children'], key=f"children_{i}")
     st.session_state.rooms[i]['adults'] = adults
     st.session_state.rooms[i]['children'] = children
 
 # Add room button (appears below the last room input)
 if st.button("Add Room"):
-    st.session_state.rooms.append({'adults': 1, 'children': 0})
-
-# Show the calculated total pax (adults + children)
-total_pax = sum(room['adults'] + room['children'] for room in st.session_state.rooms)
-st.write(f"Total Pax: {total_pax}")
-
-# Next button
-if st.button("Next"):
-    st.write("Proceeding to the next step...")
+    st.session_state.rooms.append({'_
