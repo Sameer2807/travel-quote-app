@@ -21,4 +21,7 @@ city_to_remove = None
 for i, city in enumerate(st.session_state.cities):
     col1, col2, col3 = st.columns([3, 1, 0.3])
     with col1:
-        selected = st.select
+        selected = st.selectbox(
+    f"City {i+1}", city_options, index=city_options.index(city['name']), key=f"city_{i}"
+)
+
