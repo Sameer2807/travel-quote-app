@@ -15,28 +15,32 @@ start_date = st.date_input("Select Travel Start Date", datetime.today())
 st.subheader("Cities & Nights")
 city_options = ["Baku", "Gabala", "Shamakhi", "Sheki", "Shahdag", "Quba"]
 
-updated_cities = []
-for i, city in enumerate(st.session_state.cities):
-    col1, col2, col3 = st.columns([3, 1, 0.3])
-    with col1:
-        selected_city = st.selectbox(
-            f"City {i+1}", city_options, index=city_options.index(city["name"]), key=f"city_{i}"
-        )
-    with col2:
-        nights = st.number_input(
-            f"Nights in {selected_city}", min_value=1, value=city["nights"], key=f"nights_{i}"
-        )
-    with col3:
-        remove = False
-        if i > 0:
-            remove = st.button("❌", key=f"remove_city_{i}")
-        if not remove:
-            updated_cities.append({'name': selected_city, 'nights': nights})
+# Form to update cities in a single batch
+with st.form(key="city_form"):
+    updated_cities = []
+    for i, city in enumerate(st.session_state.cities):
+        col1, col2, col3 = st.columns([3, 1, 0.3])
+        with col1:
+            selected_city = st.selectbox(
+                f"City {i+1}", city_options, index=city_options.index(city["name"]), key=f"city_{i}"
+            )
+        with col2:
+            nights = st.number_input(
+                f"Nights in {selected_city}", min_value=1, value=city["nights"], key=f"nights_{i}"
+            )
+        with col3:
+            remove = False
+            if i > 0:
+                remove = st.button("❌", key=f"remove_city_{i}")
+            if not remove:
+                updated_cities.append({'name': selected_city, 'nights': nights})
 
-if st.button("Add City"):
-    updated_cities.append({'name': 'Baku', 'nights': 1})
-
-st.session_state.cities = updated_cities
+    # Add city button in form
+    if st.form_submit_button("Add City"):
+        updated_cities.append({'name': 'Baku', 'nights': 1})
+    
+    # Update session state only after form submission
+    st.session_state.cities = updated_cities
 
 # ---------- Transfer validation ----------
 def is_invalid_route(cities):
@@ -53,25 +57,29 @@ if is_invalid_route(st.session_state.cities):
 
 # ---------- Room Section ----------
 st.subheader("Room Configuration")
-updated_rooms = []
 
-for i, room in enumerate(st.session_state.rooms):
-    col1, col2, col3 = st.columns([1, 1, 0.3])
-    with col1:
-        adults = st.number_input(f"Adults (Room {i+1})", min_value=1, value=room["adults"], key=f"adults_{i}")
-    with col2:
-        children = st.number_input(f"Children (Room {i+1})", min_value=0, value=room["children"], key=f"children_{i}")
-    with col3:
-        remove = False
-        if i > 0:
-            remove = st.button("❌", key=f"remove_room_{i}")
-        if not remove:
-            updated_rooms.append({'adults': adults, 'children': children})
+# Form to update rooms in a single batch
+with st.form(key="room_form"):
+    updated_rooms = []
+    for i, room in enumerate(st.session_state.rooms):
+        col1, col2, col3 = st.columns([1, 1, 0.3])
+        with col1:
+            adults = st.number_input(f"Adults (Room {i+1})", min_value=1, value=room["adults"], key=f"adults_{i}")
+        with col2:
+            children = st.number_input(f"Children (Room {i+1})", min_value=0, value=room["children"], key=f"children_{i}")
+        with col3:
+            remove = False
+            if i > 0:
+                remove = st.button("❌", key=f"remove_room_{i}")
+            if not remove:
+                updated_rooms.append({'adults': adults, 'children': children})
 
-if st.button("Add Room"):
-    updated_rooms.append({'adults': 2, 'children': 0})
+    # Add room button in form
+    if st.form_submit_button("Add Room"):
+        updated_rooms.append({'adults': 2, 'children': 0})
 
-st.session_state.rooms = updated_rooms
+    # Update session state only after form submission
+    st.session_state.rooms = updated_rooms
 
 # ---------- Pax Summary ----------
 total_adults = sum(r['adults'] for r in st.session_state.rooms)
