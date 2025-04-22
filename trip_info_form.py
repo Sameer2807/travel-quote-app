@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_sortable import st_sortable
 from datetime import datetime
 
 # ---------- Initialize session state ----------
@@ -15,6 +16,21 @@ start_date = st.date_input("Select Travel Start Date", datetime.today())
 st.subheader("Cities & Nights")
 city_options = ["Baku", "Gabala", "Shamakhi", "Sheki", "Shahdag", "Quba"]
 
+# Sortable city selection
+sortable_cities = []
+for i, city in enumerate(st.session_state.cities):
+    sortable_cities.append({
+        "name": f"{city['name']} - {city['nights']} nights",
+        "value": i
+    })
+
+sorted_cities = st_sortable(sortable_cities)
+
+# Update cities list based on sorted order
+sorted_cities_indexes = [item["value"] for item in sorted_cities]
+st.session_state.cities = [st.session_state.cities[i] for i in sorted_cities_indexes]
+
+# Dynamic city UI
 updated_cities = []
 for i, city in enumerate(st.session_state.cities):
     col1, col2, col3 = st.columns([3, 1, 0.3])
