@@ -15,9 +15,9 @@ def city_input(city_list):
         city_list[i]['name'] = city_name
         city_list[i]['nights'] = nights
 
-        # Add a Remove button for each city
+        # Add a Remove button for each city with a red cross
         if i > 0:
-            if st.button(f"Remove City {i+1}", key=f"remove_city_{i}"):
+            if st.markdown(f'<a href="#" onclick="remove_city({i})" style="color: red; font-size: 24px;">&#10005;</a>', unsafe_allow_html=True):
                 city_list.pop(i)
                 break  # Exit after removing city to re-render
 
@@ -70,9 +70,9 @@ for i, room in enumerate(st.session_state.rooms):
     st.session_state.rooms[i]['adults'] = adults
     st.session_state.rooms[i]['children'] = children
 
-    # Add Remove button for each room
+    # Add a Remove button for each room with a red cross
     if i > 0:
-        if st.button(f"Remove Room {i+1}", key=f"remove_room_{i}"):
+        if st.markdown(f'<a href="#" onclick="remove_room({i})" style="color: red; font-size: 24px;">&#10005;</a>', unsafe_allow_html=True):
             st.session_state.rooms.pop(i)
             break  # Exit after removing room to re-render
 
