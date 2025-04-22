@@ -1,4 +1,4 @@
-vimport streamlit as st
+import streamlit as st
 from datetime import datetime
 
 # ---------- Initialize session state ----------
@@ -65,4 +65,18 @@ for i, room in enumerate(st.session_state.rooms):
         if i > 0:
             if st.button("❌", key=f"remove_room_{i}"):
                 st.session_state.rooms.pop(i)  # Remove room from session state
-                # No need for rerun, just update
+                # No need for rerun, just update session state
+
+# Add room button to append a new room
+if st.button("Add Room"):
+    st.session_state.rooms.append({'adults': 2, 'children': 0})
+
+# ---------- Pax Summary ----------
+total_adults = sum(r['adults'] for r in st.session_state.rooms)
+total_children = sum(r['children'] for r in st.session_state.rooms)
+st.markdown(f"**Total Pax:** {total_adults + total_children} (Adults: {total_adults}, Children: {total_children})")
+
+# ---------- Continue ----------
+st.markdown("---")
+if st.button("Next"):
+    st.success("Moving to next step...")
