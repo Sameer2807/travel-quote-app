@@ -17,6 +17,17 @@ def city_input(city_list):
 
     return city_list
 
+# Function to check the geography rule for transfers
+def check_transfer_rule(cities):
+    # Check if the rule is violated (i.e., Shahdag or Quba after Gabala/Shamakhi/Sheki or vice versa)
+    for i in range(1, len(cities)):
+        if (cities[i]['name'] in ["Shahdag", "Quba"] and 
+            cities[i-1]['name'] in ["Gabala", "Shamakhi", "Sheki"]) or \
+           (cities[i]['name'] in ["Gabala", "Shamakhi", "Sheki"] and 
+            cities[i-1]['name'] in ["Shahdag", "Quba"]):
+            return True
+    return False
+
 # Initialize city data
 if 'cities' not in st.session_state:
     st.session_state.cities = [{'name': 'Baku', 'nights': 2}]
@@ -28,6 +39,10 @@ start_date = st.date_input("Select Travel Start Date", datetime.today())
 # Add cities dynamically
 st.header("Cities & Nights")
 city_input(st.session_state.cities)
+
+# Check for transfer rule violation
+if check_transfer_rule(st.session_state.cities):
+    st.warning("Direct transfer between Shahdag/Quba and Gabala/Shamakhi/Sheki is not possible. Please take a minimum 1-night stay in Baku.")
 
 # Add city button (appears below the last city)
 if st.button("Add City"):
