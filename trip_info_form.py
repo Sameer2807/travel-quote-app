@@ -72,4 +72,18 @@ for i, room in enumerate(st.session_state.rooms):
 
     # Add Remove button for each room
     if i > 0:
-        if
+        if st.button(f"Remove Room {i+1}", key=f"remove_room_{i}"):
+            st.session_state.rooms.pop(i)
+            break  # Exit after removing room to re-render
+
+# Add room button (appears below the last room input)
+if st.button("Add Room"):
+    st.session_state.rooms.append({'adults': 1, 'children': 0})
+
+# Show the calculated total pax (adults + children)
+total_pax = sum(room['adults'] + room['children'] for room in st.session_state.rooms)
+st.write(f"Total Pax: {total_pax}")
+
+# Next button
+if st.button("Next"):
+    st.write("Proceeding to the next step...")
