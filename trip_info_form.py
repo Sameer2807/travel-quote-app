@@ -24,27 +24,31 @@ start_date = st.date_input("Select Travel Start Date", datetime.today())
 
 # Add cities dynamically
 st.header("Cities & Nights")
-add_city = st.button("Add City")
+city_input(st.session_state.cities)
 
-if add_city:
+# Add city button (appears below the last city)
+if st.button("Add City"):
     st.session_state.cities.append({'name': '', 'nights': 1})
-
-# Display cities and nights input
-st.session_state.cities = city_input(st.session_state.cities)
 
 # Room Configuration (Dynamic)
 st.header("Room Configuration")
-rooms = st.number_input("Number of Rooms", min_value=1, value=1)
+if 'rooms' not in st.session_state:
+    st.session_state.rooms = [{'adults': 1, 'children': 0}]
 
-room_data = []
-for i in range(rooms):
+# Display room inputs
+for i, room in enumerate(st.session_state.rooms):
     st.subheader(f"Room {i+1}")
-    adults = st.number_input(f"Number of Adults in Room {i+1}", min_value=1, value=1)
-    children = st.number_input(f"Number of Children in Room {i+1}", min_value=0, value=0)
-    room_data.append({"adults": adults, "children": children})
+    adults = st.number_input(f"Number of Adults in Room {i+1}", min_value=1, value=room['adults'], key=f"adults_{i}")
+    children = st.number_input(f"Number of Children in Room {i+1}", min_value=0, value=room['children'], key=f"children_{i}")
+    st.session_state.rooms[i]['adults'] = adults
+    st.session_state.rooms[i]['children'] = children
+
+# Add room button (appears below the last room input)
+if st.button("Add Room"):
+    st.session_state.rooms.append({'adults': 1, 'children': 0})
 
 # Show the calculated total pax (adults + children)
-total_pax = sum(room['adults'] + room['children'] for room in room_data)
+total_pax = sum(room['adults'] + room['children'] for room in st.session_state.rooms)
 st.write(f"Total Pax: {total_pax}")
 
 # Next button
