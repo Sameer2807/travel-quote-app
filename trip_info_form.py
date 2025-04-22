@@ -31,16 +31,20 @@ with st.form(key="city_form"):
         with col3:
             remove = False
             if i > 0:
-                remove = st.button("❌", key=f"remove_city_{i}")
-            if not remove:
+                remove = st.checkbox(f"Remove City {i+1}", key=f"remove_city_{i}")
+            if remove:
+                st.session_state.cities.pop(i)  # Remove city from session state
+            else:
                 updated_cities.append({'name': selected_city, 'nights': nights})
 
     # Add city button in form
-    if st.form_submit_button("Add City"):
-        updated_cities.append({'name': 'Baku', 'nights': 1})
+    if st.form_submit_button("Submit Changes"):
+        st.session_state.cities = updated_cities  # Update session state with new list of cities
     
-    # Update session state only after form submission
-    st.session_state.cities = updated_cities
+    # Add city button outside form
+    if st.button("Add City"):
+        updated_cities.append({'name': 'Baku', 'nights': 1})
+        st.session_state.cities = updated_cities
 
 # ---------- Transfer validation ----------
 def is_invalid_route(cities):
@@ -70,16 +74,20 @@ with st.form(key="room_form"):
         with col3:
             remove = False
             if i > 0:
-                remove = st.button("❌", key=f"remove_room_{i}")
-            if not remove:
+                remove = st.checkbox(f"Remove Room {i+1}", key=f"remove_room_{i}")
+            if remove:
+                st.session_state.rooms.pop(i)  # Remove room from session state
+            else:
                 updated_rooms.append({'adults': adults, 'children': children})
 
     # Add room button in form
-    if st.form_submit_button("Add Room"):
-        updated_rooms.append({'adults': 2, 'children': 0})
+    if st.form_submit_button("Submit Room Changes"):
+        st.session_state.rooms = updated_rooms  # Update session state with new list of rooms
 
-    # Update session state only after form submission
-    st.session_state.rooms = updated_rooms
+    # Add room button outside form
+    if st.button("Add Room"):
+        updated_rooms.append({'adults': 2, 'children': 0})
+        st.session_state.rooms = updated_rooms
 
 # ---------- Pax Summary ----------
 total_adults = sum(r['adults'] for r in st.session_state.rooms)
