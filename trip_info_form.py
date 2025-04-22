@@ -15,6 +15,12 @@ def city_input(city_list):
         city_list[i]['name'] = city_name
         city_list[i]['nights'] = nights
 
+        # Add a Remove button for each city
+        if i > 0:
+            if st.button(f"Remove City {i+1}", key=f"remove_city_{i}"):
+                city_list.pop(i)
+                break  # Exit after removing city to re-render
+
     return city_list
 
 # Function to check the geography rule for transfers
@@ -46,7 +52,6 @@ if check_transfer_rule(st.session_state.cities):
 
 # Add city button (appears below the last city)
 if st.button("Add City"):
-    # Add a new city with a default value (e.g., 'Baku') and 1 night stay
     st.session_state.cities.append({'name': 'Baku', 'nights': 1})
 
 # Room Configuration (Dynamic)
@@ -65,14 +70,6 @@ for i, room in enumerate(st.session_state.rooms):
     st.session_state.rooms[i]['adults'] = adults
     st.session_state.rooms[i]['children'] = children
 
-# Add room button (appears below the last room input)
-if st.button("Add Room"):
-    st.session_state.rooms.append({'adults': 1, 'children': 0})
-
-# Show the calculated total pax (adults + children)
-total_pax = sum(room['adults'] + room['children'] for room in st.session_state.rooms)
-st.write(f"Total Pax: {total_pax}")
-
-# Next button
-if st.button("Next"):
-    st.write("Proceeding to the next step...")
+    # Add Remove button for each room
+    if i > 0:
+        if
