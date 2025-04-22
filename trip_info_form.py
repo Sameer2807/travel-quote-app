@@ -46,7 +46,8 @@ if check_transfer_rule(st.session_state.cities):
 
 # Add city button (appears below the last city)
 if st.button("Add City"):
-    st.session_state.cities.append({'name': '', 'nights': 1})
+    # Add a new city with a default value (e.g., 'Baku') and 1 night stay
+    st.session_state.cities.append({'name': 'Baku', 'nights': 1})
 
 # Room Configuration (Dynamic)
 st.header("Room Configuration")
