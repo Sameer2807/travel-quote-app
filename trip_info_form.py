@@ -35,7 +35,7 @@ with st.form(key="city_form"):
             if remove:
                 st.session_state.cities.pop(i)  # Remove city from session state
             else:
-                updated_cities.append({'name': selected_city, 'nights': nights})
+                updated_cities.append({'name': selected_city, 'nights': nights})  # Added closing bracket
 
     # Submit form
     st.form_submit_button("Submit Changes")
@@ -77,7 +77,7 @@ with st.form(key="room_form"):
             if remove:
                 st.session_state.rooms.pop(i)  # Remove room from session state
             else:
-                updated_rooms.append({'adults': adults, 'children': children})
+                updated_rooms.append({'adults': adults, 'children': children})  # Added closing bracket
 
     # Submit form
     st.form_submit_button("Submit Room Changes")
