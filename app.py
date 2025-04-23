@@ -2,13 +2,12 @@ import streamlit as st
 from trip_info_form import show_trip_info_form
 from itinerary_planner import show_itinerary_planner
 
-st.set_page_config(page_title="Travel Quote Planner", layout="wide")
+st.set_page_config(page_title="Travel Quote App", layout="wide")
 
-if 'page' not in st.session_state:
-    st.session_state.page = 'trip_info'
+# Simple navigation
+page = st.sidebar.selectbox("Choose Page", ["Trip Info", "Itinerary Planner"])
 
-if st.session_state.page == 'trip_info':
+if page == "Trip Info":
     show_trip_info_form()
-
-elif st.session_state.page == 'itinerary':
+elif page == "Itinerary Planner":
     show_itinerary_planner()
