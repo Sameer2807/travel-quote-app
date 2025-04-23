@@ -2,6 +2,8 @@ import streamlit as st
 from datetime import datetime
 
 # ---------- Initialize session state ----------
+def show_trip_info_form():
+    # your form code here
 if "cities" not in st.session_state:
     st.session_state.cities = [{'name': 'Baku', 'nights': 2}]
 if "rooms" not in st.session_state:
