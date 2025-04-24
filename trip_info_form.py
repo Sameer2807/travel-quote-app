@@ -76,4 +76,5 @@ def show_trip_info_form():
     # ---------- Continue ----------
     st.markdown("---")
     if st.button("Next"):
-        st.success("Moving to next step...")
+    st.session_state.current_page = "itinerary"
+    st.experimental_rerun()  # This reruns the app and switches to itinerary page
